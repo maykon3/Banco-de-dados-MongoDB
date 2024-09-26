@@ -142,6 +142,8 @@ Query: db.escritorios.insertOne({
 Query: db.funcionarios.countDocuments()</pre>
 
 * Quantos funcionários da empresa Momento possuem conjuges?
+  <pre>R: 7
+   Query: db.funcionarios.countDocuments({ "dependentes.conjuge": { $exists: true } })</pre>
 
 * Qual a média salarial dos funcionários da empresa Momento, excluindo-se o CEO?
 
