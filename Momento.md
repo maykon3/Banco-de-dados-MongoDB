@@ -163,12 +163,34 @@ Query: db.funcionarios.countDocuments()</pre>
   }])</pre>
 
 * Qual o departamento com a maior média salarial?
-<pre>R: </pre>
-<pre>Query: </pre>
+<pre>R: media: 71000, _id: ObjectId('85992103f9b3e0b3b3c1fe70'),
+  somaFun: 1 </pre>
+<pre>Query: db.funcionarios.aggregate([{
+$group: {
+_id : "$departamento",
+somaFun: {$sum: 1},
+somaSala: {$sum: "$salario"}
+}
+},{
+$project: {
+_id: 0,
+media: {$divide: ["$somaSala", "$somaFun"]}
+}
+},{
+$sort: {"somaFun": 1}},
+{$limit: 1}, 
+])</pre>
 
 * Qual o departamento com o menor número de funcionários?
-<pre>R:</pre>
-<pre>Query:  </pre>
+ <pre>R: _id: ObjectId('85992103f9b3e0b3b3c1fe70') somaFun: 1</pre>
+ <pre>Query:  db.funcionarios.aggregate([{
+$group: {
+_id : "$departamento",
+somaFun: {$sum: 1}}
+},{
+$sort: {"somaFun": 1}},
+{$limit: 1} 
+])</pre>
 
 * Pensando na relação quantidade e valor unitario, qual o produto mais valioso da empresa?
  <pre>R: Sabre de luz = 990.29</pre>
@@ -177,6 +199,24 @@ precoUnitario: -1
 }
 }])</pre>
 
-* Qual o produto mais vendido da empresa?
+* Qual o produto mais vendido da empresa? 
+<pre>R: produto: 'Uniforme de Moléculas Instáveis',
+  quantidade: 10,
+  precoUnitario: 158.29</pre>
+  
+<pre>Query: db.vendas.aggregate([{
+ $sort:{
+quantidade: -1}
+}])</pre>
 
 * Qual o produto menos vendido da empresa?
+
+<pre>R: _id: ObjectId('5f8b3f3f9b3e0b3b3c1e3e47'),
+  produto: 'Uniforme do Superman',
+  quantidade: 1,
+  precoUnitario: 300.13</pre>
+  
+ <pre>Query: db.vendas.aggregate([{
+ $sort:{
+quantidade: 1}
+}])</pre>
