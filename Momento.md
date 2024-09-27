@@ -146,14 +146,36 @@ Query: db.funcionarios.countDocuments()</pre>
  Query: db.funcionarios.countDocuments({ "dependentes.conjuge": { $exists: true } })</pre>
 
 * Qual a média salarial dos funcionários da empresa Momento, excluindo-se o CEO?
-
-* Qual a média salarial do departamento de tecnologia?
+  
+  <pre>R: totalSalarios: 235480,
+  mediaSalarial: 8721.481481481482</pre>
+  <pre>Query: db.funcionarios.aggregate([
+  {$match: {cargo: {$not: { $eq: "CEO"}}} },
+  { $group:
+	{ _id: null,
+      totalSalarios: { $sum: "$salario" },
+      totalFuncionarios: { $sum: 1 }}
+  },
+  {$project: 
+	{ _id: 0,
+      totalSalarios: 2,
+      mediaSalarial: { $divide: ["$totalSalarios", "$totalFuncionarios"] }}
+  }])</pre>
 
 * Qual o departamento com a maior média salarial?
+<pre>R: </pre>
+<pre>Query: </pre>
 
 * Qual o departamento com o menor número de funcionários?
+<pre>R:</pre>
+<pre>Query:  </pre>
 
 * Pensando na relação quantidade e valor unitario, qual o produto mais valioso da empresa?
+ <pre>R: Sabre de luz = 990.29</pre>
+ <pre>Query: db.vendas.aggregate([{ $sort:{
+precoUnitario: -1
+}
+}])</pre>
 
 * Qual o produto mais vendido da empresa?
 
