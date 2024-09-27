@@ -211,8 +211,7 @@ quantidade: -1}
 
 * Qual o produto menos vendido da empresa?
 
-<pre>R: _id: ObjectId('5f8b3f3f9b3e0b3b3c1e3e47'),
-  produto: 'Uniforme do Superman',
+<pre>R:produto: 'Uniforme do Superman',
   quantidade: 1,
   precoUnitario: 300.13</pre>
   
